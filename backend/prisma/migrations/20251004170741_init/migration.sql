@@ -1,0 +1,15 @@
+-- CreateTable
+CREATE TABLE "Curso" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nome" TEXT NOT NULL,
+    "cargaHora" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Aluno" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nome" TEXT NOT NULL,
+    "telefone" TEXT NOT NULL,
+    "cursoId" INTEGER NOT NULL,
+    CONSTRAINT "Aluno_cursoId_fkey" FOREIGN KEY ("cursoId") REFERENCES "Curso" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
