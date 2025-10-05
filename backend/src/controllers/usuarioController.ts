@@ -1,5 +1,7 @@
+import { UsuarioService } from "../services/usuarioService";
 import { Request, Response } from "express";
-import { prisma } from "../services/prisma";
+
+const usuarioService = new UsuarioService();
 
 export class UsuarioController {
   async create(req: Request, res: Response) {
@@ -13,21 +15,22 @@ export class UsuarioController {
         });
       }
 
-      const usuario = await prisma.usuario.create({
-        data: {
-          nome,
-          email,
-          senha,
-        },
-      });
+      const usuario = await usuarioService.create(nome, email, senha);
 
       return res.status(201).json({
         resposta: "Sucesso",
-        mensagem: `Usuario criado com sucesso usuario: ${usuario.nome}, e-mail: ${usuario.email}`,
+        mensagem: "Usuário criado com sucesso!",
+        dados: {
+          usuario: usuario.nome,
+          email: usuario.email,
+          senha: usuario.senha,
+        },
       });
     } catch (err) {
       console.error(err);
-      return res.status(400).json({ error: "Erro ao criar curso." });
+      return res
+        .status(400)
+        .json({ resposta: "Falha", mensagem: "Erro ao criar curso." });
     }
   }
 
@@ -39,9 +42,7 @@ export class UsuarioController {
         return res.status(400).json("Dados inválidos, verifique");
       }
 
-      const usuario = await prisma.usuario.delete({
-        where: { email },
-      });
+      const usuario = await usuarioService.delete(email);
 
       return res.status(200).json({
         resposta: "Sucesso",
@@ -56,11 +57,7 @@ export class UsuarioController {
 
   async list(req: Request, res: Response) {
     try {
-      const usuarios = await prisma.usuario.findMany({
-        orderBy: {
-          id: "desc",
-        },
-      });
+      const usuarios = await usuarioService.list();
 
       return res.status(200).json({
         resposta: "Sucesso",
