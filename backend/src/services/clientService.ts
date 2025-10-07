@@ -1,11 +1,7 @@
 import { prisma } from "./prismaService";
 
 export class ClientService {
-  async create(name: string, email: string, password: string, user_id: Number) {
-    if (!name || !email || !password || user_id) {
-      throw new Error("Campos inválidos, verifique");
-    }
-
+  async create(name: string, email: string, password: string, user_id: number) {
     const client = await prisma.client.create({
       data: {
         name: name,

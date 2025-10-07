@@ -11,7 +11,7 @@ export class UserController {
       if (!name || !email || !password) {
         return res.status(400).json({
           resposta: "Falha",
-          mensagem: "Dados não inválidos, verifique os campos",
+          mensagem: "Dados não válidos, verifique os campos",
         });
       }
 
@@ -27,10 +27,9 @@ export class UserController {
         },
       });
     } catch (err) {
-      console.error(err);
       return res
         .status(400)
-        .json({ resposta: "Falha", mensagem: "Erro ao criar curso." });
+        .json({ resposta: "Falha", mensagem: "Erro ao criar usuário." });
     }
   }
 
