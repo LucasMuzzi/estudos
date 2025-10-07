@@ -1,29 +1,29 @@
-import { UsuarioService } from "../services/usuarioService";
+import { UserService } from "../services/userService";
 import { Request, Response } from "express";
 
-const usuarioService = new UsuarioService();
+const userService = new UserService();
 
-export class UsuarioController {
+export class UserController {
   async create(req: Request, res: Response) {
     try {
-      const { nome, email, senha } = req.body;
+      const { name, email, password } = req.body;
 
-      if (!nome || !email || !senha) {
+      if (!name || !email || !password) {
         return res.status(400).json({
           resposta: "Falha",
           mensagem: "Dados não inválidos, verifique os campos",
         });
       }
 
-      const usuario = await usuarioService.create(nome, email, senha);
+      const user = await userService.create(name, email, password);
 
       return res.status(201).json({
         resposta: "Sucesso",
         mensagem: "Usuário criado com sucesso!",
         dados: {
-          usuario: usuario.nome,
-          email: usuario.email,
-          senha: usuario.senha,
+          user: user.name,
+          email: user.email,
+          password: user.password,
         },
       });
     } catch (err) {
@@ -42,11 +42,11 @@ export class UsuarioController {
         return res.status(400).json("Dados inválidos, verifique");
       }
 
-      const usuario = await usuarioService.delete(email);
+      const user = await userService.delete(email);
 
       return res.status(200).json({
         resposta: "Sucesso",
-        mensagem: `Usuário ${usuario.email} removido com sucesso`,
+        mensagem: `Usuário ${user.email} removido com sucesso`,
       });
     } catch (err) {
       return res
@@ -57,11 +57,11 @@ export class UsuarioController {
 
   async list(req: Request, res: Response) {
     try {
-      const usuarios = await usuarioService.list();
+      const users = await userService.list();
 
       return res.status(200).json({
         resposta: "Sucesso",
-        dados: usuarios,
+        dados: users,
       });
     } catch (err) {
       return res

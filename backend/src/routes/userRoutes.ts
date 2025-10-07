@@ -1,8 +1,8 @@
-import { UsuarioController } from "../controllers/usuarioController";
+import { UserController } from "../controllers/userController";
 import { Router } from "express";
 
 const router = Router();
-const usuarioController = new UsuarioController();
+const usuarioController = new UserController();
 
 router.post("/create-user", async (req, res) => {
   await usuarioController.create(req, res);
